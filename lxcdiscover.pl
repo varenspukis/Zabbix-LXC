@@ -18,6 +18,10 @@ my @lines = split /\n/, $lxcresult;
 foreach my $l (@lines) {
                 my $id = $l;
 		my @stat = split / +/, `/usr/bin/lxc-info -s -n $id`;
+		my @name = split / +/, `/usr/sbin/pct config $id | grep hostname`;
+		my $ctname = substr($name[1], 0 , -1);
+		$ctname =~ s/\.minet\.net//;
+
 		my $status = substr($stat[1], 0, -1);
 
                 print ",\n" if not $first;
@@ -25,7 +29,8 @@ foreach my $l (@lines) {
 
                 print "\t{\n";
                 print "\t\t\"{#CTID}\":\"$id\",\n";
-                print "\t\t\"{#CTSTATUS}\":\"$status\",\n";
+		print "\t\t\"{#CTNAME}\":\"$ctname\",\n";
+		print "\t\t\"{#CTSTATUS}\":\"$status\",\n";
                 print "\t\t\"{#VENAME}\":\"$VEname\"\n";
                 print "\t}";
 }
