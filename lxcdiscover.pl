@@ -17,8 +17,8 @@ my $lxcresult = `/usr/bin/find /sys/fs/cgroup/cpuacct/lxc/ -maxdepth 1 -mindepth
 my @lines = split /\n/, $lxcresult;
 foreach my $l (@lines) {
                 my $id = $l;
-		my @stat = split / +/, `/usr/bin/lxc-info -s -n $id`;
-		my @name = split / +/, `/usr/sbin/pct config $id | grep hostname`;
+		my @stat = split / +/, `sudo /usr/bin/lxc-info -s -n $id`;
+		my @name = split / +/, `sudo /usr/sbin/pct config $id | grep hostname`;
 		my $ctname = substr($name[1], 0 , -1);
 		$ctname =~ s/\.minet\.net//;
 
